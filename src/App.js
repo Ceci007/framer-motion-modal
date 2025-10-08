@@ -1,17 +1,32 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Modal from "./components/Modal";
 import './App.css';
 
 function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const close = () => setModalOpen(false);
+  const open = () => setModalOpen(true);
+
   return (
     <div>
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         className="save-button"
-        onClick={() => null}
+        onClick={() => (modalOpen ? close() : open())}
       >
         Launch Modal
       </motion.button>
+
+      <AnimatePresence
+        initial={false}
+        exitBeforeEnter={true}
+        onExitComplete={() => null}
+      >
+        { modalOpen && <Modal modalOpen={modalOpen} handleClose={close} /> }
+      </AnimatePresence>
     </div>
   );
 }
